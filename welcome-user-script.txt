@@ -1,0 +1,62 @@
+{=(IMPORTANT):
+###!!!!READ ME!!!!!!!###
+### Channel names and role tags have to be referenced by their ID.
+### Basically, anytime you see a random string of numbers, its probably an ID
+### If you are editing this and need to look up an ID, check at this url- https://bit.ly/3Hl48Uv
+### This was originally written by strawberry, reach out with any questions
+### Documentation on tagscript, the programming language this is written in, 
+### can be found at https://docs.carl.gg/tags-and-triggers/tags-advanced-usage/
+### Below is where you can add and edit variables used in this script!!!}
+ 
+{=(SECTION):
+###NAMES OF CHANNELS###
+### variable name, inside the parenthesis, is the name of the channel
+### value, after the colon, is the ID of the channel}
+{=(general):536898842751402027}
+{=(vet-has-a-bot-chat-too):910940018128879617}
+{=(rules-and-such):824068073891954699}
+ 
+{=(SECTION):
+###NAMES OF ROLES###
+### variable name, inside the parenthsis, is the name of the role followed by -role
+### value, after the colon, is the ID of the role}
+{=(member-role):548989544687468544}
+{=(mod-role):616970135294443553}
+{=(welcome-gif-committee):822276213669363742}
+{=(queen-role):926171006291304529}
+ 
+{=(SECTION):
+###GENERAL VARIABLES###
+### welcome-team is the ID of the welcome gif committee role
+### post-to-channel is the channel to post the welcome message to
+### role-given is the role to give newly admitted users
+### allowed-users is the roles allowed to run this command, typically restricted to mods}
+{=(welcome-team):{welcome-gif-committee}}
+{=(post-to):{vet-has-a-bot-chat-too}}
+{=(role-given):{member-role}}
+{=(allowed-users):{mod-role},{queen-role}}
+ 
+{=(SECTION):
+###WELCOME MESSAGE###
+### This chunk is the welcome message to be displayed. Be careful with your variable usage here.
+### Channels should be referenced by variable. Add the variable for the channel under NAMES OF CHANNELS. Include in the message using <#{channel-name}>
+### Roles should be referenced by variable. Add the variable for the role under NAMES OF ROLES. Include in the message using <@&{role-name}>
+### The new user is referenced automatically by the target(mention) variable.}
+{=(welcome-message):
+{target(mention)} is here!  Do your thing, <@&{welcome-team}>!  {target}, while we do our best to smother you with welcomes, please be sure to read the <#{rules-and-such}> channel for more information about our discord.}
+ 
+{=(IMPORTANT):
+###!!!!READ ME!!!!!!!###
+###!!!!PROCEED WITH CAUTION!!!!###
+###!!!!DO NOT EDIT UNDER THIS UNLESS YOU ARE SURE WHAT YOU ARE DOING!!!!###}
+{embed(description):{welcome-message}}
+{=():}
+ 
+{=(comment):###Automagically assigning the tagged user the 'member' role}
+{{if({user(id)}!={target(id)}):{silent}cmd:role add {target(id)} {role-given}}}
+ 
+{=(comment):###!!!!Only let mods run this command!!!!}
+{require(You cannot run this command):{allowed-users}}
+ 
+{=(comment):###Which channel to post the welcome message to.}
+{redirect:{post-to}}
